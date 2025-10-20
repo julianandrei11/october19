@@ -1,0 +1,49 @@
+<ion-header class="app-header">
+  <ion-toolbar>
+    <!-- Back button (left) -->
+    <ion-buttons slot="start">
+      <ion-button class="icon-btn back-btn" fill="clear" (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <!-- Title (center) -->
+    <ion-title class="app-title">Brain Games</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="game-home-screen" [fullscreen]="true">
+
+  <!-- Brain Games Section -->
+  <div class="game-section">
+    <div class="section-header-text">
+      <h2>🎮 Brain Games</h2>
+      <p>Fun cognitive exercises</p>
+    </div>
+
+    <div class="game-grid brain-games">
+      <div class="game-card" routerLink="/name-that-memory">
+        <div class="card-glow"></div>
+        <div class="game-icon">🎯</div>
+        <h3>Name That Memory</h3>
+        <p>Identify people and places</p>
+        <div class="play-button">
+          <ion-icon name="play"></ion-icon>
+          Play
+        </div>
+      </div>
+
+      <div class="game-card" routerLink="/category-match">
+        <div class="card-glow"></div>
+        <div class="game-icon">🧩</div>
+        <h3>Category Match</h3>
+        <p>Sort items by category</p>
+        <div class="play-button">
+          <ion-icon name="play"></ion-icon>
+          Play
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

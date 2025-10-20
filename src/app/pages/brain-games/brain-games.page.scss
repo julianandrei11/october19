@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap');
+
+/* ===== Header ===== */
+.app-header ion-toolbar {
+  --background: linear-gradient(135deg, #c9a8f6 0%, #e8c9ff 100%);
+  --color: #1e293b;
+  --min-height: 64px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  padding: 0 8px;
+}
+.app-title { font-weight: 900; font-size: 20px; letter-spacing: .5px; }
+.icon-btn { --background: transparent; color: #1e293b; margin-left: 4px; }
+.icon-btn ion-icon { font-size: 22px; }
+
+/* ===== Background ===== */
+.game-home-screen {
+  --ion-background-color: transparent;
+  background: linear-gradient(135deg, #faf5ff 0%, #f3ecff 50%, #f9f2ff 100%);
+  font-family: 'Nunito', sans-serif;
+
+  min-height: 100%;
+  padding: 10px 10px 140px;
+  overflow: auto;
+  position: relative;
+
+  &::before {
+    content: ''; position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: float 20s ease-in-out infinite;
+    z-index: -2; pointer-events: none;
+  }
+  &::after {
+    content: ''; position: fixed; inset: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%);
+    z-index: -1; pointer-events: none;
+  }
+}
+
+/* ===== SECTIONS & HEADERS ===== */
+.game-section {
+  margin: 25px 0;
+  padding: 0 10px;
+  position: relative;
+  z-index: 6;
+  isolation: isolate;
+}
+
+.game-section:last-child { 
+  margin-bottom: 80px; 
+}
+
+.section-header-text {
+  margin-bottom: 16px; 
+  text-align: left; 
+  animation: slideInLeft .8s ease-out;
+
+  h2 {
+    font-size: 22px; 
+    font-weight: 800; 
+    color: #1f2937; 
+    margin: 0 0 4px;
+    display: flex; 
+    align-items: center; 
+    gap: 8px;
+    text-shadow: 0 2px 10px rgba(0,0,0,.1);
+  }
+
+  p { 
+    font-size: 15px; 
+    color: rgba(31,41,55,.8); 
+    margin: 0; 
+    font-weight: 400; 
+    text-shadow: 0 1px 5px rgba(0,0,0,.05); 
+  }
+}
+
+/* ===== GRID & CARD ===== */
+.game-grid {
+  display: grid;
+  gap: 14px;
+  position: relative;
+  z-index: 10;
+}
+
+.game-grid.brain-games { 
+  grid-template-columns: repeat(2, 1fr); 
+}
+
+.game-card {
+  background: rgba(255,255,255,.96);
+  border-radius: 22px;
+  padding: 18px 14px;
+  text-align: center;
+  box-shadow: 0 10px 28px rgba(0,0,0,.18);
+  border: 1px solid rgba(255,255,255,.35);
+  cursor: pointer;
+  position: relative; 
+  overflow: hidden; 
+  min-height: 168px;
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+  z-index: 20;
+  pointer-events: auto;
+}
+
+.game-card::before {
+  content: '';
+  position: absolute; 
+  inset: -2px;
+  background: linear-gradient(45deg, #a8c8ec, #b8d4f0, #c8e0f4, #d8ecf8, #e8f2fc);
+  border-radius: 22px; 
+  opacity: 0; 
+  z-index: -1;
+  pointer-events: none;
+}
+
+.game-card:hover::before { 
+  opacity: 1;
+}
+
+.game-card .card-glow {
+  position: absolute; 
+  inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,.12), transparent);
+  opacity: 0; 
+  pointer-events: none;
+}
+
+.game-card:hover .card-glow { 
+  opacity: 1;
+}
+
+.game-card .game-icon { 
+  font-size: 40px; 
+  margin-bottom: 8px; 
+}
+
+.game-card h3 { 
+  font-size: 16px; 
+  font-weight: 800; 
+  color: #1f2937; 
+  margin: 0 0 4px; 
+}
+
+.game-card p { 
+  font-size: 13px; 
+  color: rgba(31,41,55,.85); 
+  margin: 0 0 12px; 
+  line-height: 1.35; 
+}
+
+.game-card .play-button {
+  background: linear-gradient(135deg, #8b9dc3, #9bb5d1);
+  color: #fff; 
+  padding: 10px 14px; 
+  border-radius: 24px;
+  font-size: 12px; 
+  font-weight: 800;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 4px;
+  margin-top: auto;
+  box-shadow: 0 6px 18px rgba(139,157,195,.45);
+}
+
+.game-card .play-button ion-icon { 
+  font-size: 14px; 
+}
+
+.game-card:hover .play-button { 
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139,157,195,.6);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-20px) rotate(120deg); }
+  66% { transform: translateY(10px) rotate(240deg); }
+}
+
+/* ===== ACCESSIBILITY: REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .game-card,
+  .game-section .section-header-text {
+    animation: none !important;
+  }
+}
+
+/* ===== MOBILE TUNING ===== */
+@media (max-width: 480px) {
+  .game-home-screen { 
+    padding: 8px; 
+    padding-bottom: 180px; 
+    min-height: auto; 
+    height: auto; 
+  }
+  
+  .game-grid.brain-games { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 12px; 
+  }
+
+  .game-card { 
+    min-height: 160px; 
+    padding: 16px 12px; 
+  }
+  
+  .game-card .game-icon { 
+    font-size: 36px; 
+  }
+  
+  .game-card h3 { 
+    font-size: 15px; 
+  }
+  
+  .game-card p { 
+    font-size: 12.5px; 
+  }
+  
+  .game-card .play-button { 
+    font-size: 12px; 
+  }
+}
+
+/* ===== EXTRA-SMALL ===== */
+@media (max-width: 360px) {
+  .game-home-screen { 
+    padding: 6px; 
+    padding-bottom: 200px; 
+  }
+  
+  .game-section:last-child { 
+    margin-bottom: 120px; 
+  }
+}
+

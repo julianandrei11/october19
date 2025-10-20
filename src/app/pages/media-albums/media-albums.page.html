@@ -1,0 +1,49 @@
+<ion-header class="app-header">
+  <ion-toolbar>
+    <!-- Back button (left) -->
+    <ion-buttons slot="start">
+      <ion-button class="icon-btn back-btn" fill="clear" (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <!-- Title (center) -->
+    <ion-title class="app-title">Media Albums</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="game-home-screen" [fullscreen]="true">
+
+  <!-- Media Albums Section -->
+  <div class="game-section">
+    <div class="section-header-text">
+      <h2>📸 Photos and videos collection</h2>
+     
+    </div>
+
+    <div class="game-grid media-albums">
+      <div class="game-card memory-game" routerLink="/photo-memories">
+        <div class="card-glow"></div>
+        <div class="game-icon">📷</div>
+        <h3>Photo Memories</h3>
+        <p>Browse your photo collection</p>
+        <div class="play-button">
+          <ion-icon name="play"></ion-icon>
+          Browse
+        </div>
+      </div>
+
+      <div class="game-card mini-games" routerLink="/video-memories">
+        <div class="card-glow"></div>
+        <div class="game-icon">🎬</div>
+        <h3>Video Memories</h3>
+        <p>Watch special moments</p>
+        <div class="play-button">
+          <ion-icon name="play"></ion-icon>
+          Watch
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

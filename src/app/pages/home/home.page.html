@@ -1,0 +1,168 @@
+<ion-header class="app-header">
+  <ion-toolbar>
+    <!-- Left side: Patient/Standard toggle -->
+    <ion-buttons slot="start">
+      <ion-button class="mode-toggle mode-white" (click)="onPatientModeToggle()">
+        <ion-icon [name]="isPatientMode ? 'lock-closed' : 'lock-open'"></ion-icon>
+        <span>{{ isPatientMode ? 'Patient' : 'Standard' }}</span>
+      </ion-button>
+    </ion-buttons>
+
+    <!-- App title -->
+    <ion-title class="app-title">ALALA</ion-title>
+
+    <!-- Right side: Settings -->
+    <ion-buttons slot="end">
+      <ion-button *ngIf="isPatientMode" class="settings-btn" (click)="promptExitPatientMode()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/settings" class="settings-btn" *ngIf="!isPatientMode">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="game-home-screen" [scrollEvents]="true" [fullscreen]="true">
+  <!-- Floating Background Elements -->
+  <div class="floating-circles">
+    <div class="floating-circle circle-1"></div>
+    <div class="floating-circle circle-2"></div>
+    <div class="floating-circle circle-3"></div>
+  </div>
+
+  <div class="floating-elements">
+    <div class="floating-emoji emoji-1">
+      <ion-icon name="brain-outline"></ion-icon>
+    </div>
+    <div class="floating-emoji emoji-2">
+      <ion-icon name="chatbubble-outline"></ion-icon>
+    </div>
+    <div class="floating-emoji emoji-3">
+      <ion-icon name="heart-outline"></ion-icon>
+    </div>
+    <div class="floating-emoji emoji-4">
+      <ion-icon name="star-outline"></ion-icon>
+    </div>
+  </div>
+
+
+  <!-- Quick Progress Summary (hidden in Patient Mode) -->
+  <div class="game-section" *ngIf="!isPatientMode">
+    <div class="section-header-text">
+      <h2>
+        <ion-icon name="analytics-outline"></ion-icon>
+        Today's Progress
+      </h2>
+      <p>Quick overview of your activity</p>
+    </div>
+    <div class="progress-summary-card">
+      <div class="summary-stats">
+        <div class="summary-stat">
+          <div class="stat-icon">
+            <ion-icon name="target-outline"></ion-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number">{{ todayStats.accuracy }}%</span>
+            <span class="stat-label">Accuracy</span>
+          </div>
+        </div>
+        <div class="summary-stat">
+          <div class="stat-icon">
+            <ion-icon name="library-outline"></ion-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number">{{ todayStats.cardsToday }}</span>
+            <span class="stat-label">Cards</span>
+          </div>
+        </div>
+        <div class="summary-stat">
+          <div class="stat-icon">
+            <ion-icon name="time-outline"></ion-icon>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number">{{ todayStats.avgTime }}s</span>
+            <span class="stat-label">Avg Time</span>
+          </div>
+        </div>
+      </div>
+      <ion-button fill="clear" size="small" routerLink="/progress" class="view-details-btn">
+        View Full Report
+        <ion-icon name="chevron-forward" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Stacked primary cards (one row each) -->
+  <div class="game-section cards-list cards-list-spaced">
+    <div class="card-row">
+      <div class="memory-categories-card" routerLink="/memory-categories" role="button" tabindex="0" aria-label="Open Memory Categories">
+        <div class="card-glow"></div>
+        <div class="memory-categories-icon" aria-hidden="true">
+          <ion-icon name="albums-outline" class="card-icon" aria-hidden="true"></ion-icon>
+        </div>
+        <div class="card-body">
+          <h3>Memory Categories</h3>
+          <p>People, Places, Objects</p>
+        </div>
+        <div class="play-button">
+          <span>Explore</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-row">
+      <div class="media-albums-card" routerLink="/media-albums" role="button" tabindex="0" aria-label="Open Media Albums">
+        <div class="card-glow"></div>
+        <div class="media-albums-icon" aria-hidden="true">
+          <ion-icon name="images-outline" class="card-icon" aria-hidden="true"></ion-icon>
+        </div>
+        <div class="card-body">
+          <h3>Media Albums</h3>
+          <p>Photos & Videos Collection</p>
+        </div>
+        <div class="play-button">
+          <span>Browse</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-row">
+      <div class="brain-games-card" routerLink="/brain-games" role="button" tabindex="0" aria-label="Open Brain Games">
+        <div class="card-glow"></div>
+        <div class="brain-games-icon" aria-hidden="true">
+          <ion-icon name="game-controller-outline" class="card-icon" aria-hidden="true"></ion-icon>
+        </div>
+        <div class="card-body">
+          <h3>Brain Games</h3>
+          <p>Fun Cognitive Exercises</p>
+        </div>
+        <div class="play-button">
+          <span>Play</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Tab Navigation Footer (hidden in Patient Mode) -->
+<div class="tab-footer" *ngIf="!isPatientMode">
+  <div class="tab-nav">
+    <div class="tab-item" routerLink="/people" aria-label="People">
+      <ion-icon name="albums-outline"></ion-icon>
+      <span>People</span>
+    </div>
+
+    <div class="tab-item center-home active" routerLink="/home" aria-label="Home">
+      <div class="home-circle">
+        <ion-icon name="home"></ion-icon>
+      </div>
+    </div>
+
+    <div class="tab-item" routerLink="/progress" aria-label="Progress">
+      <ion-icon name="analytics-outline"></ion-icon>
+      <span>Progress</span>
+    </div>
+  </div>
+</div>
