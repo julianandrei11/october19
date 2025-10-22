@@ -1,0 +1,228 @@
+<ion-header class="app-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="mode-toggle" (click)="togglePatientMode()">
+        <ion-icon [name]="isPatientMode ? 'lock-closed' : 'lock-open'"></ion-icon>
+        <span>{{ isPatientMode ? 'Patient' : 'Standard' }}</span>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="app-title">ALALA</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/settings" class="icon-btn">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="progress-screen">
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading your progress...</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <div class="period-selector">
+      <ion-segment [(ngModel)]="selectedPeriod" (ionChange)="onPeriodChange()" class="period-segment-row">
+        <ion-segment-button value="today">
+          <ion-label>Today</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="week">
+          <ion-label>Week</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="month">
+          <ion-label>Month</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+      
+      <ion-segment [(ngModel)]="selectedPeriod" (ionChange)="onPeriodChange()" class="period-segment-row period-segment-row-second">
+        <ion-segment-button value="custom">
+          <ion-label>Custom</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="all">
+          <ion-label>All Time</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <div class="custom-range" *ngIf="selectedPeriod === 'custom'">
+      <div class="custom-range-header">
+        <h3>
+          <ion-icon name="calendar-outline"></ion-icon>
+          Select Date Range
+        </h3>
+        <p>Choose your custom time period</p>
+      </div>
+      
+      <div class="date-range-dropdown" (click)="toggleDateRangePicker()">
+        <div class="dropdown-content">
+          <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+          <span class="date-range-text">{{ getDateRangeText() }}</span>
+          <ion-icon name="chevron-down" class="dropdown-arrow"></ion-icon>
+        </div>
+      </div>
+
+      <div class="date-range-popup" *ngIf="isDateRangePickerOpen">
+        <div class="popup-header">
+          <h4>Select Date Range</h4>
+          <ion-button fill="clear" size="small" (click)="closeDateRangePicker()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </div>
+        
+        <div class="calendars-container">
+          <div class="calendar-section">
+            <div class="calendar-header">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <span>Start Date</span>
+            </div>
+            <ion-datetime 
+              [(ngModel)]="customStartDate" 
+              presentation="date"
+              (ionChange)="onCustomDateChange()"
+              class="calendar-datetime">
+            </ion-datetime>
+          </div>
+          
+          <div class="calendar-section">
+            <div class="calendar-header">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <span>End Date</span>
+            </div>
+            <ion-datetime 
+              [(ngModel)]="customEndDate" 
+              presentation="date"
+              (ionChange)="onCustomDateChange()"
+              class="calendar-datetime">
+            </ion-datetime>
+          </div>
+        </div>
+        
+        <div class="popup-actions">
+          <ion-button fill="outline" (click)="closeDateRangePicker()">Cancel</ion-button>
+          <ion-button fill="solid" (click)="applyDateRange()">Apply</ion-button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card accuracy">
+        <div class="stat-icon">
+          <ion-icon name="target-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <h3>{{ overallStats.accuracy }}%</h3>
+          <p>Overall Accuracy</p>
+        </div>
+      </div>
+
+      <div class="stat-card time">
+        <div class="stat-icon">
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <h3>{{ overallStats.avgTimePerCard }}s</h3>
+          <p>Avg Time/Card</p>
+        </div>
+      </div>
+
+      <div class="stat-card cards">
+        <div class="stat-icon">
+          <ion-icon name="library-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <h3>{{ overallStats.totalCards }}</h3>
+          <p>Cards Reviewed</p>
+        </div>
+      </div>
+
+      <div class="stat-card skipped">
+        <div class="stat-icon">
+          <ion-icon name="close-circle-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <h3>{{ overallStats.skippedCards }}</h3>
+          <p>Cards Skipped</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <h2>Accuracy Over Time</h2>
+      <div class="chart-container" *ngIf="chartLoaded">
+        <canvas #accuracyChart></canvas>
+      </div>
+      <div class="chart-fallback" *ngIf="!chartLoaded">
+        <div class="fallback-message">
+          <ion-icon name="bar-chart-outline"></ion-icon>
+          <p>Chart visualization temporarily unavailable</p>
+          <p class="small-text">Data is still being tracked in the background</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-container">
+      <div class="category-section">
+        <div class="section-header-text">
+          <h2>
+            <ion-icon name="analytics-outline"></ion-icon>
+            Category Performance
+          </h2>
+        </div>
+        
+        <div class="category-performance-button-container">
+          <div class="category-performance-card" routerLink="/category-performance">
+            <div class="category-performance-icon">
+              <ion-icon name="analytics-outline"></ion-icon>
+            </div>
+            <div class="play-button">
+              <ion-icon name="analytics"></ion-icon>
+              View
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="session-section">
+        <div class="section-header-text">
+          <h2>
+            <ion-icon name="calendar-outline"></ion-icon>
+            Recent Sessions
+          </h2>
+        </div>
+        
+        <div class="recent-sessions-button-container">
+          <div class="recent-sessions-card" routerLink="/recent-sessions">
+            <div class="recent-sessions-icon">
+              <ion-icon name="calendar-outline"></ion-icon>
+            </div>
+            <div class="play-button">
+              <ion-icon name="time"></ion-icon>
+              View
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<div class="tab-footer">
+  <div class="tab-nav">
+    <div class="tab-item" routerLink="/people" aria-label="People">
+      <ion-icon name="albums-outline"></ion-icon>
+      <span>People</span>
+    </div>
+
+    <div class="tab-item center-home" routerLink="/home" aria-label="Home">
+      <div class="home-circle">
+        <ion-icon name="home"></ion-icon>
+      </div>
+    </div>
+
+    <div class="tab-item active" routerLink="/progress" aria-label="Progress">
+      <ion-icon name="analytics-outline"></ion-icon>
+      <span>Progress</span>
+    </div>
+  </div>
+</div>

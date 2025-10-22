@@ -1,0 +1,927 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap');
+
+.app-header ion-toolbar {
+  --background: linear-gradient(135deg, #c9a8f6 0%, #e8c9ff 100%);
+  --color: #fff;
+  --min-height: 64px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  padding: 0 8px;
+}
+ion-header ion-toolbar { --min-height: 64px; }
+ion-header ion-title { font-size: 22px; font-weight: 800; letter-spacing: .2px; }
+.app-title {
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: .5px;
+  color: #1e293b;
+}
+
+/* Patient Mode toggle chip (LEFT). Keep original class & add white variant */
+.mode-toggle {
+  --background: rgba(255,255,255,0.15);
+  --border-radius: 18px;
+  height: 34px;
+  display: flex; align-items: center; gap: 6px;
+  color: #1e293b;
+  padding: 0 10px;
+  font-size: 12px; font-weight: 700;
+  border: none;
+}
+.mode-toggle ion-icon { font-size: 16px; }
+.mode-toggle:hover { background: rgba(255,255,255,0.25); }
+
+/* White-styled toggle (for left side) */
+.mode-toggle.mode-white {
+  --background: rgba(255,255,255,0.12);
+  color: #1e293b;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+.mode-toggle.mode-white:hover { background: rgba(255,255,255,0.22); }
+
+/* Icon-only button (kept for generic usage) */
+.icon-btn {
+  --background: transparent;
+  color: #1e293b;
+  margin-left: 4px;
+}
+.icon-btn ion-icon { font-size: 22px; }
+
+/* Specific Settings button on RIGHT with hover spin */
+.settings-btn {
+  --background: transparent;
+  color: #fff;
+  margin-left: 4px;
+  transition: transform .3s ease, color .3s ease;
+}
+.settings-btn ion-icon {
+  font-size: 22px;
+  transition: transform .6s ease;
+}
+.settings-btn:hover { color: #ffeb3b; }
+.settings-btn:hover ion-icon { transform: rotate(360deg) scale(1.15); }
+.settings-btn:active ion-icon { transform: rotate(15deg) scale(0.95); }
+
+/* =========================================================
+   BASE LAYOUT & BACKGROUND (Kept + explicit z-index ordering)
+   ========================================================= */
+.game-home-screen {
+  --ion-background-color: transparent;
+  background: linear-gradient(135deg, #faf5ff 0%, #f3ecff 50%, #f9f2ff 100%);
+  font-family: 'Nunito', sans-serif;
+
+  min-height: 100vh;
+  height: 100vh;
+
+  padding: 16px;
+  padding-bottom: 80px; /* Reduced to prevent scrolling */
+
+  overflow-y: hidden; /* Prevent scrolling */
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -2;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(45deg, transparent 30%, rgba(250,240,255,0.06) 50%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+/* =========================================================
+   FLOATING DECOR (Ensure they NEVER intercept hover/click)
+   ========================================================= */
+.floating-elements,
+.floating-circles {
+  pointer-events: none; /* critical */
+  opacity: .14;
+}
+
+/* Floating Elements (emojis) */
+.floating-elements {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+}
+.floating-elements .floating-emoji {
+  position: absolute; font-size: 24px;
+  opacity: .7;
+  color: #1e293b;
+}
+.floating-elements .floating-emoji ion-icon {
+  font-size: 24px;
+  color: #1e293b;
+}
+.floating-elements .emoji-1 { top: 10%; left: 10%; }
+.floating-elements .emoji-2 { top: 20%; right: 15%; }
+.floating-elements .emoji-3 { top: 60%; left: 5%; }
+.floating-elements .emoji-4 { top: 70%; right: 10%; }
+
+/* Floating Circles */
+.floating-circles {
+  position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+}
+.floating-circles .floating-circle {
+  position: absolute; border-radius: 50%;
+  background: rgba(255,255,255,.08);
+}
+.floating-circles .circle-1 { width: 120px; height: 120px; top: 15%; left: 8%;  animation-delay: 0s; }
+.floating-circles .circle-2 { width: 80px;  height: 80px;  top: 25%; right: 12%; animation-delay: 3s; }
+.floating-circles .circle-3 { width: 150px; height: 150px; top: 55%; left: 15%; animation-delay: 6s; }
+
+/* =========================================================
+   PATIENT MODE SECTION (Kept)
+   ========================================================= */
+.patient-mode-banner {
+  background: linear-gradient(90deg, #4CAF50, #45a049);
+  color: #fff;
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 8px;
+  font-weight: 600; font-size: 14px;
+  box-shadow: 0 2px 8px rgba(76,175,80,.3);
+  z-index: 2; position: relative;
+
+  ion-icon { font-size: 18px; }
+}
+
+.patient-mode-section {
+  padding: 16px;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 2;
+
+  .patient-mode-card {
+    background: rgba(255,255,255,.95);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.15);
+    border: 1px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    animation: slideInUp .6s ease-out;
+
+    .mode-info {
+      display: flex; align-items: center; gap: 12px; flex: 1;
+
+      .mode-icon {
+        width: 40px; height: 40px; border-radius: 50%;
+        background: rgba(0,0,0,.05);
+        display: flex; align-items: center; justify-content: center;
+        animation: pulse 2s ease-in-out infinite;
+
+        ion-icon { font-size: 20px; }
+      }
+
+      .mode-text {
+        h3 { font-size: 16px; font-weight: 600; color: #333; margin: 0 0 2px; }
+        p  { font-size: 13px; color: #666; margin: 0; }
+      }
+    }
+
+    ion-button {
+      --background: linear-gradient(90deg, #bfa2f8, #e8c9ff);
+      --color: #2b0450;
+      --border-radius: 12px; height: 36px; font-weight: 600; min-width: 80px;
+      box-shadow: 0 4px 15px rgba(146,92,194,0.12);
+    }
+  }
+}
+
+/* =========================================================
+   PROFILE HEADER (Kept)
+   ========================================================= */
+.game-header {
+  padding: 20px 16px;
+  text-align: center;
+  position: relative;
+  z-index: 5;
+
+  .profile-bubble {
+    display: flex; flex-direction: column; align-items: center; gap: 15px;
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: block;
+      object-fit: cover;
+      box-sizing: border-box;
+      border: 3px solid transparent;
+      padding: 3px;
+      background:
+        linear-gradient(#ffffff, #ffffff) padding-box,
+        linear-gradient(135deg, #8b9dc3 0%, #9bb5d1 50%, #b8c5e8 100%) border-box;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+    }
+
+    .welcome-badge {
+      h1 { font-size: 24px; font-weight: 700; color: #1f2937; margin: 0; text-shadow: none; }
+      p  { font-size: 16px; color: #6b7280; margin: 5px 0 0; text-shadow: none; }
+    }
+  }
+}
+
+/* =========================================================
+   SECTIONS & HEADERS (Kept)
+   ========================================================= */
+.game-section {
+  margin: 25px 0;
+  padding: 0 10px;
+  position: relative;
+  z-index: 6;            /* put above decor */
+  isolation: isolate;     /* create stacking context */
+}
+.game-section:last-child { margin-bottom: 80px; }
+
+/* Adjusted spacing for cards list */
+.cards-list-spaced {
+  margin-top: 80px; /* Increased to create better balance with space above */
+  margin-bottom: 60px; /* Increased to match footer spacing */
+}
+
+/* New Layout Styles */
+.side-by-side-container {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.half-section {
+  flex: 1;
+  min-width: 0; /* Prevents flex items from overflowing */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.half-section .section-header-text {
+  text-align: center !important;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.half-section .section-header-text h2 {
+  justify-content: center !important;
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+}
+
+.half-section .section-header-text p {
+  text-align: center !important;
+}
+
+.half-section .memory-categories-button-container,
+.half-section .media-albums-button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.half-section .memory-categories-card,
+.half-section .media-albums-card {
+  width: 100%;
+  max-width: 300px;
+  min-height: 200px;
+  margin: 0 auto;
+}
+
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.centered-container .section-header-text {
+  text-align: center !important;
+  width: 100%;
+}
+
+.centered-container .section-header-text h2 {
+  justify-content: center !important;
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+}
+
+.centered-container .section-header-text p {
+  text-align: center !important;
+}
+
+.top-row-section {
+  margin-bottom: 20px;
+}
+
+.bottom-row-section {
+  margin-top: 20px;
+}
+
+.section-title-row {
+  display: flex; align-items: center; gap: 8px;
+}
+.add-inline {
+  margin: 0;
+  --padding-start: 4px;
+  --padding-end: 4px;
+}
+
+.section-header-text {
+  margin-bottom: 16px; text-align: left; animation: slideInLeft .8s ease-out;
+
+  h2 {
+    font-size: 22px; font-weight: 800; color: #1f2937; margin: 0 0 4px;
+    display: flex; align-items: center; gap: 8px;
+    text-shadow: none;
+
+    ion-icon {
+      font-size: 20px;
+      color: #1e293b;
+    }
+  }
+
+  p { font-size: 15px; color: #6b7280; margin: 0; font-weight: 400; text-shadow: none; }
+}
+
+/* =========================================================
+   GRID & CARD (Verbose + z-index fix)
+   ========================================================= */
+.game-grid {
+  display: grid;
+  gap: 14px;
+  position: relative;
+  z-index: 10; /* above earlier sections */
+}
+.game-grid.media-albums      { grid-template-columns: repeat(2, 1fr); }
+.game-grid.brain-games       { grid-template-columns: repeat(2, 1fr); }
+
+/* Memory Categories Button */
+.memory-categories-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* Card row style: full-width, horizontal layout */
+.memory-categories-card,
+.media-albums-card,
+.brain-games-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(250,245,255,0.96));
+  border-radius: 16px;
+  padding: 16px 20px; /* Balanced padding for viewport fit */
+  display: flex;
+  align-items: center;
+  gap: 14px; /* Consistent gap */
+  width: 100%;
+  max-width: 900px;
+  margin: 8px auto; /* Consistent margin */
+  box-shadow: 0 8px 22px rgba(98,48,146,0.08);
+  border: 1px solid rgba(230,220,255,0.6);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  min-height: 80px; /* Balanced height for viewport */
+  z-index: 20;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.memory-categories-card::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background: linear-gradient(90deg, rgba(201,168,246,0.12), rgba(232,201,255,0.12));
+  border-radius: 16px;
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.memory-categories-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+.memory-categories-card:hover::before { 
+  opacity: 0;
+}
+
+.memory-categories-card .card-glow {
+  position: absolute; 
+  inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,.12), transparent);
+  opacity: 0; 
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.memory-categories-card:hover .card-glow { 
+  opacity: 0;
+}
+
+
+.memory-categories-icon,
+.media-albums-icon,
+.brain-games-icon {
+  font-size: 28px; /* Consistent icon size */
+  width: 50px; height: 50px; /* Consistent icon container size */
+  display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, #f3e8ff, #efe0ff);
+  border-radius: 12px; /* Consistent border radius */
+  flex-shrink: 0;
+}
+
+.card-body {
+  display: flex; flex-direction: column; gap: 3px; /* Consistent gap */
+  flex: 1; min-width: 0;
+}
+.card-body h3 { 
+  font-size: 16px; /* Consistent title size */
+  font-weight: 800; 
+  color: #2b1b3a; 
+  margin: 0; 
+}
+.card-body p  { 
+  font-size: 13px; /* Consistent description size */
+  color: rgba(43,27,58,0.8); 
+  margin: 0; 
+}
+
+.play-button {
+  background: linear-gradient(90deg, #bfa2f8, #e8c9ff);
+  color: #2b0450; 
+  padding: 10px 16px; /* Increased horizontal padding for consistency */
+  border-radius: 12px; /* Consistent border radius */
+  font-size: 13px; /* Consistent font size */
+  font-weight: 800;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-left: 10px; /* Consistent margin */
+  box-shadow: 0 6px 18px rgba(146,92,194,0.12);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  min-width: 100px; /* Increased minimum width for consistency */
+  width: 100px; /* Fixed width for all buttons */
+  height: 36px; /* Consistent height for all buttons */
+}
+
+.memory-categories-card:hover,
+.media-albums-card:hover,
+.brain-games-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(102,61,171,0.12); }
+
+/* Media Albums Button */
+.media-albums-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* media & brain use the same row styles via the shared selector above */
+
+.media-albums-card::before {
+  content: '';
+  position: absolute; 
+  inset: -2px;
+  background: linear-gradient(45deg, #a8c8ec, #b8d4f0, #c8e0f4, #d8ecf8, #e8f2fc);
+  border-radius: 22px; 
+  opacity: 0; 
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.media-albums-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+.media-albums-card:hover::before { 
+  opacity: 0;
+}
+
+.media-albums-card .card-glow {
+  position: absolute; 
+  inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,.12), transparent);
+  opacity: 0; 
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.media-albums-card:hover .card-glow { 
+  opacity: 0;
+}
+  /* media-albums card body inherits from .card-body above */
+
+.media-albums-card .play-button {
+  background: linear-gradient(90deg, #bfa2f8, #e8c9ff);
+  color: #2b0450; 
+  padding: 12px 18px; 
+  border-radius: 24px;
+  font-size: 13px; 
+  font-weight: 800;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 6px;
+  margin-top: auto;
+  box-shadow: 0 6px 18px rgba(146,92,194,0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.media-albums-card .play-button ion-icon { 
+  font-size: 16px; 
+}
+
+.media-albums-card:hover .play-button { 
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102,126,234,.6);
+}
+
+/* Brain Games Button */
+.brain-games-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* -- end card row overrides -- */
+
+.brain-games-card::before {
+  content: '';
+  position: absolute; 
+  inset: -2px;
+  background: linear-gradient(45deg, #a8c8ec, #b8d4f0, #c8e0f4, #d8ecf8, #e8f2fc);
+  border-radius: 22px; 
+  opacity: 0; 
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.brain-games-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+.brain-games-card:hover::before { 
+  opacity: 0;
+}
+
+.brain-games-card .card-glow {
+  position: absolute; 
+  inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,.12), transparent);
+  opacity: 0; 
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.brain-games-card:hover .card-glow { 
+  opacity: 0;
+}
+
+.brain-games-icon { 
+  font-size: 28px; 
+  width: 50px; height: 50px; display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, #f3e8ff, #efe0ff);
+  border-radius: 12px; flex-shrink: 0;
+}
+
+.game-card {
+  /* keep for legacy uses but make compact */
+  border-radius: 16px;
+  padding: 14px;
+}
+.game-card::before {
+  content: '';
+  position: absolute; inset: -2px;
+  background: linear-gradient(45deg, #a8c8ec, #b8d4f0, #c8e0f4, #d8ecf8, #e8f2fc);
+  border-radius: 22px; opacity: 0; z-index: -1;
+  pointer-events: none;
+}
+.game-card:hover {
+  transform: translateY(-2px);
+}
+.game-card:hover::before { opacity: 0; }
+
+.game-card .card-glow {
+  position: absolute; inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,.12), transparent);
+  opacity: 0; pointer-events: none;
+}
+.game-card:hover .card-glow { opacity: 0; }
+
+.game-card .game-icon { font-size: 40px; margin-bottom: 8px; }
+.game-card h3 { font-size: 16px; font-weight: 800; color: #1f2937; margin: 0 0 4px; }
+.game-card p  { font-size: 13px; color: rgba(31,41,55,.85); margin: 0 0 12px; line-height: 1.35; }
+
+.game-card .play-button {
+  background: linear-gradient(90deg, #bfa2f8, #e8c9ff);
+  color: #2b0450; padding: 10px 14px; border-radius: 24px;
+  font-size: 12px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  margin-top: auto;
+  box-shadow: 0 6px 18px rgba(146,92,194,0.12);
+}
+.game-card .play-button ion-icon { font-size: 14px; }
+.game-card:hover .play-button { transform: translateY(-2px); }
+
+
+
+/* =========================================================
+   QUICK PROGRESS (Kept)
+   ========================================================= */
+.progress-summary-card {
+  background: rgba(255,255,255,.95);
+  border-radius: 16px; padding: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.2);
+
+  .summary-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px;
+
+    .summary-stat {
+      display: flex; align-items: center; gap: 10px;
+
+      .stat-icon {
+        font-size: 24px; width: 40px; height: 40px;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(102,126,234,.1); border-radius: 12px;
+        
+        ion-icon {
+          font-size: 20px;
+          color: #1e293b;
+        }
+      }
+      .stat-info {
+        display: flex; flex-direction: column;
+        .stat-number { font-size: 20px; font-weight: 800; color: #333; line-height: 1; }
+        .stat-label  { font-size: 11px; color: #666; font-weight: 600; }
+      }
+    }
+  }
+
+  .view-details-btn {
+    --color: #667eea;
+    font-weight: 700; font-size: 13px;
+    margin: 0; width: 100%; justify-content: space-between;
+  }
+  .view-details-btn ion-icon { font-size: 14px; }
+}
+
+/* =========================================================
+   FOOTER (Kept)
+   ========================================================= */
+.tab-footer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(135deg, #c9a8f6 0%, #e8c9ff 100%);
+  border-top: 2px solid #cbd5e1;
+  box-shadow: 0 -8px 32px rgba(0,0,0,.1);
+  z-index: 1000;
+}
+.tab-footer::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(135deg, #c9a8f6 0%, #e8c9ff 100%);
+}
+
+.tab-footer .tab-nav {
+  display: flex; height: 70px; align-items: center; position: relative; padding: 0 10px;
+}
+.tab-footer .tab-item {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  cursor: pointer; transition: all .25s ease;
+  padding: 10px 6px; border-radius: 12px; position: relative;
+  min-width: 100px;
+}
+.tab-footer .tab-item::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 2px; background: #475569; transition: width .25s ease;
+}
+.tab-footer .tab-item ion-icon {
+  font-size: 28px; color: #1e293b;
+  transition: all .25s ease;
+  filter: drop-shadow(0 0 8px rgba(0,0,0,0.1));
+}
+.tab-footer .tab-item span {
+  font-size: 12px; color: #1e293b; font-weight: 800; letter-spacing: .3px;
+  text-transform: none; transition: color .25s ease;
+}
+.tab-footer .tab-item:hover {
+  background: rgba(30,41,59,.1); transform: translateY(-2px);
+}
+.tab-footer .tab-item:hover::before { width: 36px; }
+.tab-footer .tab-item:hover ion-icon {
+  color: #475569; filter: drop-shadow(0 0 10px rgba(71,85,105,.3)); transform: scale(1.06);
+}
+.tab-footer .tab-item:hover span { color: #475569; }
+
+.tab-footer .tab-item.active:not(.center-home) {
+  background: rgba(30,41,59,.14);
+}
+.tab-footer .tab-item.active:not(.center-home)::before { width: 44px; }
+.tab-footer .tab-item.active:not(.center-home) ion-icon {
+  color: #334155; filter: drop-shadow(0 0 12px rgba(51,65,85,.4)); transform: scale(1.08);
+}
+.tab-footer .tab-item.active:not(.center-home) span { color: #334155; }
+
+.tab-footer .tab-item.center-home { position: relative; }
+.tab-footer .tab-item.center-home .home-circle {
+  width: 68px; height: 68px;
+  background: linear-gradient(135deg, #667eea 0%, #e0ccf4 50%, #f093fb 100%);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(102,126,234,.6), 0 0 40px rgba(102,126,234,.6), inset 0 2px 10px rgba(255,255,255,.2);
+  border: 3px solid #e8f2ff;
+  cursor: pointer; transition: transform .3s ease, box-shadow .3s ease;
+  margin-top: -15px; position: relative;
+}
+.tab-footer .tab-item.center-home .home-circle::before {
+  content: ''; position: absolute; inset: -5px; border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+  z-index: -1; opacity: 0;
+}
+.tab-footer .tab-item.center-home .home-circle::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); width: 84px; height: 84px;
+  border: 2px solid rgba(102,126,234,.3); border-radius: 50%;
+}
+.tab-footer .tab-item.center-home .home-circle ion-icon {
+  font-size: 28px; color: #fff; filter: drop-shadow(0 2px 8px rgba(0,0,0,.3)); z-index: 2;
+}
+.tab-footer .tab-item.center-home .home-circle:hover {
+  transform: scale(1.12) translateY(-3px);
+  box-shadow: 0 0 30px rgba(102,126,234,.8), 0 0 60px rgba(102,126,234,.6), inset 0 2px 15px rgba(255,255,255,.3);
+}
+.tab-footer .tab-item.center-home .home-circle:hover::before { opacity: 1; }
+.tab-footer .tab-item.center-home .home-circle:active { transform: scale(1.05) translateY(-2px); }
+
+/* =========================================================
+   DELETE CHIP (Kept same visuals)
+   ========================================================= */
+.delete-chip {
+  position: absolute;
+  top: 8px; right: 10px;
+  width: 36px; height: 36px;
+  border: none; border-radius: 999px;
+  background: rgba(0,0,0,0.6);
+  color: #fff; font-size: 22px; line-height: 36px; text-align: center;
+  cursor: pointer;
+  z-index: 25;
+  transition: transform .12s ease, opacity .12s ease;
+}
+
+
+/* =========================================================
+   GENERIC / GLOBAL
+   ========================================================= */
+ion-content { --padding-bottom: 100px; --overflow: auto; height: auto; }
+* { overflow-x: visible; }
+
+/* Focus rings (Kept) */
+.game-card:focus-visible,
+.tab-footer .tab-item:focus-visible {
+  outline: 3px solid #f093fb;
+  outline-offset: 3px;
+  border-radius: 16px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-elements *, .floating-circles *, .game-card,
+  .game-header .profile-bubble, .game-section .section-header-text {
+    animation: none !important;
+  }
+}
+
+/* =========================================================
+   MEDIUM SCREENS (New)
+   ========================================================= */
+@media (max-width: 600px) and (min-width: 361px) {
+  .side-by-side-container {
+    gap: 12px;
+  }
+  
+  .half-section {
+    min-width: 0;
+  }
+}
+
+/* =========================================================
+   TABLET RESPONSIVE (New)
+   ========================================================= */
+@media (max-width: 768px) and (min-width: 481px) {
+  .side-by-side-container {
+    gap: 12px;
+  }
+  
+  .centered-container {
+    max-width: 350px;
+  }
+}
+
+/* =========================================================
+   MOBILE TUNING (Kept)
+   ========================================================= */
+@media (max-width: 360px) {
+  .game-home-screen { padding: 8px; padding-bottom: 180px; min-height: auto; height: auto; }
+  ion-content { --padding-bottom: 120px; height: auto; }
+
+  /* Responsive layout for side-by-side sections - only stack on very small screens */
+  .side-by-side-container {
+    flex-direction: column;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .half-section {
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .half-section .memory-categories-card,
+  .half-section .media-albums-card {
+    max-width: 100%;
+    min-height: 180px;
+  }
+
+  .half-section .section-header-text {
+    text-align: center !important;
+  }
+
+  .half-section .section-header-text h2 {
+    justify-content: center !important;
+    display: flex !important;
+  }
+
+  .half-section .section-header-text p {
+    text-align: center !important;
+  }
+
+  .centered-container .section-header-text {
+    text-align: center !important;
+  }
+
+  .centered-container .section-header-text h2 {
+    justify-content: center !important;
+    display: flex !important;
+  }
+
+  .centered-container .section-header-text p {
+    text-align: center !important;
+  }
+
+  .centered-container {
+    max-width: 100%;
+  }
+
+  .game-grid.memory-categories,
+  .game-grid.media-albums,
+  .game-grid.brain-games { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  .game-card { min-height: 160px; padding: 16px 12px; }
+  .game-card .game-icon { font-size: 36px; }
+  .game-card h3 { font-size: 15px; }
+  .game-card p  { font-size: 12.5px; }
+  .game-card .play-button { font-size: 12px; 
+  }
+
+  .tab-footer .tab-nav { height: 65px; padding: 0 5px; }
+  .tab-footer .tab-nav .tab-item { padding: 8px 2px; }
+  .tab-footer .tab-nav .tab-item.center-home .home-circle {
+    width: 62px; height: 62px; border: 2px solid #e8f2ff; margin-top: -12px;
+  }
+}
+
+/* Force Patient/Standard mode + Settings button text and icons black */
+.mode-toggle,
+.settings-btn {
+  --color: #1e293b !important;
+  color: #1e293b !important;
+}
+
+.mode-toggle ion-icon,
+.settings-btn ion-icon {
+  color: #1e293b !important;
+  fill: #1e293b !important;
+}
+

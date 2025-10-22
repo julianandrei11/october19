@@ -1,0 +1,75 @@
+<!-- Simple App Header with back button -->
+<ion-header class="app-header">
+  <ion-toolbar>
+    <!-- Left side: Back button -->
+    <ion-buttons slot="start">
+      <ion-button class="back-btn" (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <!-- App title -->
+    <ion-title class="app-title">ALALA</ion-title>
+
+    <!-- Right side: Settings -->
+    <ion-buttons slot="end">
+      <ion-button routerLink="/settings" class="icon-btn">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="category-performance-screen" fullscreen>
+  <div class="header-spacer"></div>
+  
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading performance data...</p>
+  </div>
+
+  <!-- Category Performance Section -->
+  <div class="game-section" *ngIf="!isLoading">
+    <div class="section-header-text">
+      <h2>📊 Category Performance</h2>
+      <p>Detailed performance metrics by category</p>
+    </div>
+
+    <div class="category-grid">
+      <div class="category-card" *ngFor="let category of categoryStats">
+        <div class="category-header">
+          <ion-icon name="{{ category.icon }}" class="category-icon"></ion-icon>
+          <h3>{{ category.name }}</h3>
+        </div>
+        <div class="category-stats">
+          <div class="stat-row">
+            <span>Avg Time:</span>
+            <span class="stat-value">{{ category.avgTime }}s</span>
+          </div>
+          <div class="stat-row">
+            <span>Cards Played:</span>
+            <span class="stat-value">{{ category.cardsPlayed }}</span>
+          </div>
+          <div class="stat-row">
+            <span>Accuracy:</span>
+            <span class="stat-value">{{ category.accuracy }}%</span>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="category.accuracy"></div>
+          <span class="progress-label">100</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating decorative elements -->
+  <div class="floating-elements">
+    <div class="floating-emoji emoji-1">🌟</div>
+    <div class="floating-emoji emoji-2">💫</div>
+    <div class="floating-emoji emoji-3">✨</div>
+    <div class="floating-emoji emoji-4">🎈</div>
+  </div>
+</ion-content>
+

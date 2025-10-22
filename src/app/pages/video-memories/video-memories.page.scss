@@ -1,0 +1,547 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap');
+
+/* ===== Header ===== */
+.app-header ion-toolbar {
+  --background: linear-gradient(135deg, #c9a8f6 0%, #e8c9ff 100%);
+  --color: #1e293b;
+  --min-height: 64px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  padding: 0 8px;
+}
+.app-title { 
+  font-weight: 900; 
+  font-size: 20px; 
+  letter-spacing: .5px; 
+  color: #1e293b;
+}
+.icon-btn { --background: transparent; color: #1e293b; margin-left: 4px; }
+.icon-btn ion-icon { font-size: 22px; }
+
+/* ===== Main Page Header ===== */
+.main-header {
+  text-align: center;
+  padding: 20px 16px 30px;
+  margin-bottom: 20px;
+}
+
+.main-title {
+  font-size: 32px;
+  font-weight: 900;
+  color: #000;
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.title-icon {
+  font-size: 28px;
+  color: #ff6b9d;
+}
+
+.title-sparkle {
+  font-size: 24px;
+  color: #ffd93d;
+}
+
+.main-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ===== Detail Modal Header Buttons ===== */
+.header-back-button {
+  color: #6c757d;
+  --color: #6c757d;
+}
+
+.header-back-button:hover {
+  --background: rgba(108, 117, 125, 0.1);
+}
+
+.header-edit-button {
+  color: #007bff;
+  --color: #007bff;
+}
+
+.header-edit-button:hover {
+  --background: rgba(0, 123, 255, 0.1);
+}
+
+.header-delete-button {
+  color: #dc3545;
+  --color: #dc3545;
+}
+
+.header-delete-button:hover {
+  --background: rgba(220, 53, 69, 0.1);
+}
+
+/* ===== Background ===== */
+.game-home-screen {
+  --ion-background-color: #fff;
+  background: #fff;
+  font-family: 'Nunito', sans-serif;
+  min-height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.floating-elements, .floating-circles { opacity: .12; }
+.floating-elements {
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  .floating-emoji { position: absolute; font-size: 22px; opacity: .8; }
+  .emoji-1 { top: 10%; left: 10%; }
+  .emoji-2 { top: 22%; right: 12%; }
+  .emoji-3 { top: 66%; left: 6%; }
+  .emoji-4 { top: 78%; right: 8%; }
+}
+.floating-circles {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+  .floating-circle { position: absolute; border-radius: 50%; background: rgba(255,255,255,.08); }
+  .circle-1 { width: 120px; height: 120px; top: 15%; left: 8%; }
+  .circle-2 { width: 80px;  height: 80px;  top: 25%; right: 12%; }
+  .circle-3 { width: 150px; height: 150px; top: 55%; left: 15%; }
+}
+
+/* ===== Gallery Grid Layout ===== */
+.gallery-container {
+  padding: 0 !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+}
+
+.gallery-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 1px !important;
+  padding: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.gallery-item {
+  border-radius: 0 !important;
+  background: transparent;
+  aspect-ratio: 1 !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(0.98);
+}
+
+.gallery-video-container {
+  position: relative;
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 1 !important;
+  overflow: hidden;
+}
+
+.gallery-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  display: block !important;
+}
+
+.gallery-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-play-button {
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-size: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* ===== Detail Modal ===== */
+.detail-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.detail-video-container {
+  width: 100%;
+  height: 300px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.detail-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-info h2 {
+  font-size: 28px;
+  font-weight: 900;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.detail-date {
+  font-size: 14px;
+  color: #9ca3af;
+  margin-bottom: 20px;
+}
+
+.detail-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+}
+
+.detail-controls ion-button {
+  --border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0;
+}
+
+.video-timeline {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.video-timeline ion-range {
+  --bar-background: rgba(0,0,0,0.2);
+  --bar-background-active: linear-gradient(90deg, #8b9dc3, #9bb5d1);
+  --knob-background: #ffffff;
+  --knob-size: 20px;
+  --bar-height: 8px;
+  --bar-border-radius: 999px;
+}
+
+.time-display {
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.detail-edit {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.detail-edit h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-edit ion-input {
+  margin-bottom: 12px;
+  --background: rgba(255, 255, 255, 0.8);
+  --border-radius: 8px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 8px;
+
+  ion-button {
+    flex: 1;
+    --border-radius: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 12px;
+  }
+}
+
+.detail-actions {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(102, 126, 234, 0.2);
+
+  ion-button {
+    width: 100%;
+    --border-radius: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+/* ===== Empty state ===== */
+.empty-state-wrapper {
+  display: flex; align-items: center; justify-content: center;
+  height: calc(100vh - 64px); padding: 16px;
+}
+.empty-state {
+  background: rgba(255,255,255,.96);
+  border-radius: 20px; padding: 40px; text-align: center;
+  width: 100%; max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.empty-icon { font-size: 72px; margin-bottom: 12px; color: #8b9dc3; }
+.empty-state h2 { margin: 0 0 10px; color: #000; font-weight: 900; }
+.empty-message { margin: 6px 0 18px; color: #666; }
+
+/* ===== Reels (vertical) ===== */
+.reels-container {
+  position: relative;
+  height: calc(100vh - 64px);
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.reel {
+  position: relative;
+  height: calc(100vh - 64px);
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+.reel-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+  cursor: pointer;
+}
+
+/* ===== Delete “×” overlay ===== */
+.delete-chip {
+  position: absolute;
+  top: 8px; right: 10px;
+  width: 36px; height: 36px;
+  border: none; border-radius: 999px;
+  background: rgba(0,0,0,0.6);
+  color: #fff; font-size: 22px; line-height: 36px; text-align: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: transform .12s ease, opacity .12s ease;
+}
+.delete-chip:active { transform: scale(0.96); }
+
+/* ===== Overlay for title/time ===== */
+.reel-overlay {
+  position: absolute; left: 0; right: 0; bottom: 64px; /* keep space for slider */
+  padding: 18px 14px 26px;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.35) 85%);
+  pointer-events: none; /* allow clicks to pass through */
+}
+.reel-meta {
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,.6);
+  pointer-events: auto; /* inner items clickable */
+}
+
+/* ===== Title row (icon flush with title) ===== */
+.reel-title-row {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 0;                 /* absolutely no space between title and icon */
+  letter-spacing: 0;
+}
+
+/* Title: truncates to 1 line by default; expands vertically on tap */
+.reel-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: 900;
+  font-size: 18px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;      /* 1 line by default */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;         /* allow wrapping when expanded */
+  line-height: 1.25;
+  max-height: 1.25em;          /* 1 line tall */
+  transition: max-height 180ms ease;
+  cursor: pointer;
+}
+.reel-title.expanded {
+  -webkit-line-clamp: unset;
+  max-height: calc(1.25em * 6); /* show up to 6 lines */
+}
+/* Responsive Grid Layout */
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-grid {
+    grid-template-columns: 1fr !important;
+    gap: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reel-title { transition: none; }
+}
+
+/* Edit button: zero spacing, sits flush with title */
+.edit-title-btn {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  margin: 0;
+  height: auto;
+  min-height: 0;
+  line-height: 1;
+  color: #fff;
+}
+.edit-title-btn ion-icon {
+  font-size: 18px;
+  vertical-align: baseline;
+}
+
+.reel-time  { font-weight: 700; font-size: 12px; opacity: .9; }
+
+/* Make sure overlays can grow if needed */
+.reel-overlay, .reel-meta { overflow: visible; }
+
+/* ===== Bottom controls ===== */
+.reel-controls {
+  position: absolute; left: 0; right: 0; bottom: 12px;
+  padding: 0 12px;
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* button | slider | time */
+  align-items: center;
+  gap: 8px;
+  z-index: 3;
+}
+.play-toggle {
+  --padding-start: 6px;
+  --padding-end: 6px;
+  --background: rgba(0,0,0,0.35);
+  --border-radius: 999px;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0,0,0,.35);
+}
+.play-toggle ion-icon { font-size: 18px; }
+
+.reel-range {
+  --bar-background: rgba(255,255,255,0.35);
+  --bar-background-active: linear-gradient(90deg, #a855f7, #7c3aed);
+  --knob-background: #ffffff;
+  --knob-size: 18px;
+  --bar-height: 6px;
+  --bar-border-radius: 999px;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.35));
+  margin-inline: 4px;
+}
+
+.time-readout {
+  color: #fff;
+  font-weight: 800;
+  font-size: 12px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.6);
+  min-width: 86px;
+  text-align: right;
+}
+
+/* Hidden inputs */
+.hidden-file { display: none; }
+
+/* ===== Animations removed ===== */
+
+/* ===== Force BACK + SETTINGS icons white ===== */
+
+/* Built-in back button */
+ion-back-button,
+ion-back-button::part(icon) {
+  --color: #fff !important;
+  color: #fff !important;
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+
+/* Custom back button with .icon-btn */
+.icon-btn.back-btn,
+.icon-btn.back-btn ion-icon {
+  --color: #fff !important;
+  color: #fff !important;
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+
+/* Settings button */
+.icon-btn.settings-btn,
+.icon-btn.settings-btn ion-icon {
+  --color: #fff !important;
+  color: #fff !important;
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+
+/* Keep them white when hovered/pressed */
+ion-back-button:hover,
+ion-back-button:active,
+.icon-btn.back-btn:hover ion-icon,
+.icon-btn.back-btn:active ion-icon,
+.icon-btn.settings-btn:hover ion-icon,
+.icon-btn.settings-btn:active ion-icon {
+  color: #fff !important;
+  fill: #fff !important;
+  stroke: #fff !important;
+}

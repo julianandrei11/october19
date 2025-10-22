@@ -1,0 +1,152 @@
+<ion-header class="app-header">
+  <ion-toolbar>
+    <!-- Back button (left) -->
+    <ion-buttons slot="start">
+      <ion-button class="icon-btn back-btn" fill="clear" (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <!-- Title (center) -->
+    <ion-title class="app-title">Photo Memories</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="game-home-screen" [fullscreen]="true">
+  <!-- Same floating decor hooks as People page -->
+  <div class="floating-elements">
+    <div class="floating-emoji emoji-1">🧠</div>
+    <div class="floating-emoji emoji-2">💭</div>
+    <div class="floating-emoji emoji-3">❤️</div>
+    <div class="floating-emoji emoji-4">🌟</div>
+  </div>
+  <div class="floating-circles">
+    <div class="floating-circle circle-1"></div>
+    <div class="floating-circle circle-2"></div>
+    <div class="floating-circle circle-3"></div>
+  </div>
+
+  <!-- Empty State - Show when no cards exist -->
+  <div *ngIf="cards.length === 0" class="empty-state-wrapper">
+    <div class="empty-state">
+      <ion-icon class="empty-icon" name="images-outline"></ion-icon>
+      <h2>No Photo Memories yet</h2>
+      <div class="empty-message">
+        Add items in People, Places, or Objects to see them here.
+      </div>
+    </div>
+  </div>
+
+  <!-- Gallery Grid View (for caregiver/standard mode) -->
+  <div class="gallery-container" *ngIf="!isPatientMode && cards.length > 0" style="padding: 0; width: 100%;">
+    <div class="gallery-grid" style="display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 1px !important; padding: 0 !important; width: 100% !important;">
+      <div
+        class="gallery-item"
+        *ngFor="let card of cards; let i = index"
+        (click)="openDetailView(card, i)"
+        style="aspect-ratio: 1 !important; width: 100% !important; height: auto !important; border-radius: 0 !important; overflow: hidden; cursor: pointer;">
+        <img [src]="imgSrc(card)" [alt]="card.label || 'Memory'" class="gallery-image" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Flashcard View (for patient mode) -->
+  <div class="page-body" *ngIf="isPatientMode && cards.length > 0 && currentCard as card">
+    <div class="people-grid">
+      <!-- Name -->
+      <div class="area area-name">
+        <div class="name-tag">{{ card.label }}</div>
+      </div>
+
+      <!-- Image -->
+      <div class="area area-image">
+        <div class="image-container">
+          <img [src]="imgSrc(card)" [alt]="card.label || 'Memory'" />
+          
+          <!-- Play/Pause Button Overlay (TikTok style) -->
+          <div class="play-overlay" *ngIf="card?.audio" (click)="togglePlay()">
+            <div class="play-button-overlay">
+              <ion-icon [name]="isPlaying ? 'pause' : 'play'"></ion-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="area area-timeline">
+        <div class="audio-timeline" [class.disabled]="!card.audio">
+          <ion-range
+            [disabled]="!card.audio"
+            [min]="0"
+            [max]="duration || 0"
+            [value]="current"
+            (ionChange)="onSeek($event)"
+            snaps="true"
+            pin="true">
+          </ion-range>
+          <div class="time-display">
+            {{ (current/60)   | number:'1.0-0' }}:{{ (current%60) | number:'2.0-0' }}
+            /
+            {{ (duration/60)  | number:'1.0-0' }}:{{ (duration%60) | number:'2.0-0' }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Prev / Next (category-match style) -->
+      <div class="area area-nav" *ngIf="cards.length > 1">
+        <div class="nav-choices-grid">
+          <button class="option-button" (click)="prev()">
+            <ion-icon name="chevron-back" class="option-caret left"></ion-icon>
+            <div class="option-text">Previous</div>
+          </button>
+          <button class="option-button" (click)="next()">
+            <div class="option-text">Next</div>
+            <ion-icon name="chevron-forward" class="option-caret"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail View Modal -->
+  <ion-modal [isOpen]="showDetailModal" (didDismiss)="closeDetailView()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="closeDetailView()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-title>{{ selectedCard?.label }} - {{ selectedCard?.createdAt | date:'M/d/yy, h:mm a' }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="selectedCard && deleteCard(selectedCard)" class="header-delete-button">
+              <ion-icon name="trash"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content *ngIf="selectedCard" class="detail-content">
+        <div class="detail-container">
+          <!-- Main Image -->
+          <div class="detail-image-container">
+            <img [src]="imgSrc(selectedCard)" [alt]="selectedCard.label" class="detail-image" />
+          </div>
+          
+          <!-- Thumbnail Strip -->
+          <div class="thumbnail-strip" *ngIf="cards.length > 1">
+            <div 
+              class="thumbnail-item"
+              *ngFor="let card of cards; let i = index"
+              [class.active]="card.id === selectedCard.id"
+              (click)="openDetailView(card, i)">
+              <img [src]="imgSrc(card)" [alt]="card.label" class="thumbnail-image" />
+            </div>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
